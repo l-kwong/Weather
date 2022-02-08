@@ -3,7 +3,6 @@ package com.example.weather;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -27,11 +26,10 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.SimpleTimeZone;
 
 public class MainActivity extends AppCompatActivity {
     // déclaration des champs
-    TextView mDate,mCity,mTemp,mDescription;
+    TextView mDate,mCity,mTemp,mDescription,mFLTemp,mHumidity;
     ImageView imgIcon;
     String maVille="Toronto";
 
@@ -45,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         mCity=findViewById(R.id.mCity);
         mTemp=findViewById(R.id.mTemp);
         mDescription=findViewById(R.id.mDescription);
+        mFLTemp=findViewById(R.id.mFLTemp);
+        mHumidity=findViewById(R.id.mHumidity);
         afficher(); // appel de la méthode
     }
 
@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
                     // température
                     int tempC=(int)Math.round(main_object.getDouble("temp"));
                     String temp=String.valueOf(tempC);
+                    // température feels like
+                    int tempF=(int)Math.round(main_object.getDouble("feels_like"));
+                    String tempFL=String.valueOf(tempF);
+                    // humidity
+                    int humidityP=(main_object.getInt("humidity"));
+                    String humidity=String.valueOf(humidityP);
 
                     String description=object.getString("description");
                     String city=response.getString("name");
@@ -99,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     mCity.setText(city);
                     mTemp.setText(temp);
                     mDescription.setText(description);
+                    mFLTemp.setText(tempFL);
+                    mHumidity.setText(humidity);
                     // formattage du temps
                     Calendar calendar=Calendar.getInstance();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, MMMM dd");
